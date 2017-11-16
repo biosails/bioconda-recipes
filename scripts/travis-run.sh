@@ -10,6 +10,7 @@ set +u
 [[ -z $SKIP_LINTING ]] && SKIP_LINTING=false
 set -u
 
+echo "CONDITION 1"
 if [[ $TRAVIS_BRANCH != "master" && $TRAVIS_BRANCH != "bulk" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "$MY_TRAVIS_REPO_SLUG" ]]
 then
     echo ""
@@ -24,11 +25,13 @@ fi
 # determine recipes to build. If building locally, build anything that changed
 # since master. If on travis, only build the commit range included in the push
 # or the pull request.
+echo "CONDITION 2"
 if [[ $TRAVIS == "true" ]]
 then
     RANGE="$TRAVIS_BRANCH HEAD"
     if [ $TRAVIS_PULL_REQUEST == "false" ]
     then
+        echo "TRAVIS PULL REQUEST: FALSE"
         if [ -z "$TRAVIS_COMMIT_RANGE" ]
         then
             RANGE="HEAD~1 HEAD"
@@ -57,6 +60,7 @@ then
                 echo "running bulk update"
             fi
         else
+          echo "TRAVIS BRANCH IS NOT BULK"
             # consider only recipes that (a) changed since the last build
             # on master, or (b) changed in this pull request compared to the target
             # branch.
@@ -79,7 +83,8 @@ then
 fi
 
 # When building master or bulk, upload packages to anaconda and quay.io.
-if [[ ( $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "bulk" ) && "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_REPO_SLUG == "bioconda/bioconda-recipes" ]]
+# TODO Add another upload
+if [[ ( $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "bulk" ) && "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_REPO_SLUG == "$MY_TRAVIS_REPO_SLUG" ]]
 then
     if [[ $TRAVIS_OS_NAME == "linux" ]]
     then
@@ -108,4 +113,7 @@ then
     echo "A comprehensive check will be performed to see what needs to be built."
     RANGE_ARG=""
 fi
+
+echo "BUILD ARGS: "
+echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
 set -x; bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG; set +x;
