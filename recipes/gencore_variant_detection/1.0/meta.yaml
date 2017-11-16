@@ -11,8 +11,8 @@ build:
 
 requirements:
   run:
-    - discovar =52488
-    - discovardenovo =52488
+    - discovar ==52488
+    - discovardenovo ==52488
     # - blast ==2.2.31
     # - bwa ==0.7.15
     # - samtools ==1.3.1
