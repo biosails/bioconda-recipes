@@ -13,3 +13,4 @@ channels:
     - bioconda
     - conda-forge
     - defaults
+    - nyuad-cgsb
