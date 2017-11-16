@@ -46,4 +46,4 @@ test:
 about:
   home: https://github.com/biosails/HPC-Runner-Command
   license: perl_5
-  summary: 'Create composable bioinformatics hpc analyses.'
+  summary: 'Gencore Variant Detection'
