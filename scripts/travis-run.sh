@@ -8,6 +8,7 @@ set +u
 [[ -z $RANGE_ARG ]] && RANGE_ARG="--git-range master HEAD"
 [[ -z $DISABLE_BIOCONDA_UTILS_BUILD_GIT_RANGE_CHECK  ]] && DISABLE_BIOCONDA_UTILS_BUILD_GIT_RANGE_CHECK="false"
 [[ -z $SKIP_LINTING ]] && SKIP_LINTING=false
+[[ -z $QUAY_TARGET ]] && QUAY_TARGET="biocontainers"
 set -u
 
 if [[ $TRAVIS_BRANCH != "master" && $TRAVIS_BRANCH != "bulk" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "$MY_TRAVIS_REPO_SLUG" ]]
@@ -41,7 +42,6 @@ then
     then
         RANGE_ARG=""
         SKIP_LINTING=true
-        echo "considering all recipes because build is triggered via cron"
     else
         if [[ $TRAVIS_BRANCH == "bulk" ]]
         then
@@ -54,7 +54,6 @@ then
                 # push on bulk: consider all recipes and do not lint (the bulk update)!
                 RANGE_ARG=""
                 SKIP_LINTING=true
-                echo "running bulk update"
             fi
         else
             # consider only recipes that (a) changed since the last build
@@ -79,11 +78,12 @@ then
 fi
 
 # When building master or bulk, upload packages to anaconda and quay.io.
-if [[ ( $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "bulk" ) && "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_REPO_SLUG == "bioconda/bioconda-recipes" ]]
+# TODO Add another upload
+if [[ ( $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "bulk" ) && "$TRAVIS_PULL_REQUEST" == "false" && $TRAVIS_REPO_SLUG == "$MY_TRAVIS_REPO_SLUG" ]]
 then
     if [[ $TRAVIS_OS_NAME == "linux" ]]
     then
-        UPLOAD_ARG="--anaconda-upload --mulled-upload-target biocontainers"
+        UPLOAD_ARG="--anaconda-upload --mulled-upload-target $QUAY_TARGET"
     else
         UPLOAD_ARG="--anaconda-upload"
     fi
@@ -108,4 +108,8 @@ then
     echo "A comprehensive check will be performed to see what needs to be built."
     RANGE_ARG=""
 fi
+
+echo "BUILD ARGS: "
+echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
+
 set -x; bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG; set +x;

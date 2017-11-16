@@ -1,57 +1,42 @@
 language: generic
 sudo: required
-
 services:
-  - docker
-
+- docker
 before_install:
-    - set -e
-    - |
-      if [ "$TRAVIS_OS_NAME" == "linux" ]
-      then
-        rm -rf /home/travis/perl5/ /home/travis/.phpenv /home/travis/gopath /home/travis/otp
-        rm -rf /home/travis/.gimme/ /home/travis/.rvm /home/travis/.nvm
-      fi
-
+- set -e
+- |
+  if [ "$TRAVIS_OS_NAME" == "linux" ]
+  then
+    rm -rf /home/travis/perl5/ /home/travis/.phpenv /home/travis/gopath /home/travis/otp
+    rm -rf /home/travis/.gimme/ /home/travis/.rvm /home/travis/.nvm
+  fi
 install: scripts/travis-setup.sh
-
 jobs:
   include:
-    # in forks, master and bulk, we run osx and linux in parallel on each push
-    - stage: Linux+macOS
-      if: (type = push) AND ((branch IN (master, bulk)) OR (fork = true))
-      os: linux
-      script: scripts/travis-run.sh
-    - os: osx
-      if: (type = push) AND ((branch IN (master, bulk)) OR (fork = true))
-      script: scripts/travis-run.sh
-    # in pull requests, we first run linux and only if that succeeds, we run osx
-    - stage: Linux
-      if: type = pull_request
-      os: linux
-      script: scripts/travis-run.sh
-    - stage: macOS
-      if: type = pull_request
-      os: osx
-      script: scripts/travis-run.sh
-
+  - stage: Linux+macOS
+    if: "(type = push) AND ((branch IN (master, bulk)) OR (fork = true))"
+    os: linux
+    script: scripts/travis-run.sh
+  - os: osx
+    if: "(type = push) AND ((branch IN (master, bulk)) OR (fork = true))"
+    script: scripts/travis-run.sh
+  - stage: Linux
+    if: type = pull_request
+    os: linux
+    script: scripts/travis-run.sh
 env:
   global:
-    - SUBDAGS=1
-    - BIOCONDA_UTILS_TAG=master
-    - BIOCONDA_UTILS_BUILD_ARGS="--loglevel=info"
-    - BIOCONDA_UTILS_LINT_ARGS=
-    - MINICONDA_VER="4.3.21"
-    - ANACONDA_USER: nyuad-cgsb
-    - GITHUB_USER: nyuad-cgsb
-    - GITHUB_REPO: nyuad-hpc-module-configs
-    - MY_TRAVIS_REPO_SLUG: 'biosails/bioconda-recipes'
-    - secure: fnBKqAm8XuaLvHF+KQk+Rc0TPsRI5d66sJiiY+fJB8pTnw2swG2LJfOa6+qDRHaBNwh9SgGPVak1czo3vKzeW+Mg1DHLD6MEhXVTeKqiyfiTw29CjBUhVWgZ+9B4cCg4GuQV/CdZVT1D7KQSS/Gryhects3gQSsx2KBecIkXpusx9XkPiwolcqiaUS3tkjvTdeVRb5r/HRNeW1v35WZlmaqKaa0BSMig6LAmX5SyQYOwbMl/dwobGFbBfhIvwbVqZ63YtljcCpJ9PTl8CRwXIajsw23x4SR26Im6NYaYjdnH9h5wNa5MvpIBiap95BpEd/WJ5yEG+/TmDOOOqQpfyNFVQwfblh6Mkrwz4KsLfdxNV8wHavzGIeOMZ+Vg4uE/OamQtOzXNVf7BpTBADE8CTgw8UWAQMnQKCR001OfSKiXeSMBdsanel5GVpSf8OoOWrQp7RafkNCNDHrgpyrViRT05TeLFqdoqb8JRL+iCSBkX544Rtt5dRTrMVWMVkAIsp7lYbiI1Prhk2E3jsNFXBYqzZcr2DgrMcMsdVJOBzt2PsdZHvnXcAx+GPQkNgg/W6f0lQB5Ch05+4nzzFBURwcGBwuNKjT1PybaB6X818lFGvy3LmAueAmaEUbf0yMIb9mtt+iJwxylZBQ8xQkxsQvxqCT9l74XH2WS0+uKvrA=
-    - secure: NlIVXIZul4sqGKuPFiwMiK+CQrCn9sDQ/cl2VZv6P13aaUCGaGk8WtNMHA7AxFUpTqNPiA4YFq4cMvcpjKDLsHKauAg8CTqVK1fQ9B13RRDnGp7fYJO6BhcgqNKVfV0ohtr5qVxBblG8/bkRGy64zmFGyMTrapqm6CQDLtErq1TXP4YtFhMoMyWAXmwSSh02iiWih7NibvbLx/l+EQdXfDSeLNvqGTPOU/tHv3IPgkgFvu7CBwQ/efXqyoqmOzZZXvssn+0f+/9jQB+yE0x60PZoeL9SOkb1LV6LJmMLn5n6v4rDXYe+GxlvcJmgdjs3HtfTvMQcpySJHryBdzgsjUq/cDVLXxcHHhTGQU0WbOD/jcaAXcNlXx4EUAbUFfILIQXu0QM+9+Z9ZIq5BGnydOnynM6ZX3Rq2Gwp5/7Ynjyh6vzlq5m/c+jkFDTjN0ZuzZWHIVEuiLnoJ9q9lINENCLibKremyC6cGVTEnL4WSXtkpDcioK//v1A1IgQVclAlw15TsfKYDD5jSOkA9JpOhIWRBz3BzKxlbZQhaKr8xLJ9Box6SyT3iT/he9lX0InsSLzdVJfZ50Zu2e+a1lhssRpv5tTxQZqNZ0+SrjIjUYhk9uZ9MT/zhgB1YTxIWkTb2/9X3atyoPEtfwNdOYwQ/1f6TcHgIx0nNXc9jOsFWs=
-    - secure: eT4kq67PSm1hEMiBVYal6EONDkbIiKRpiuCMaKaIQRwofp3IYfHjU3gCnDfb00nt+gOhcmEby3+OBFk3oLFpE/127M17xaY6AR3EjubuOhbYN41ogTqu1+p7ufIUwmiU1T+aMPqZYNmg4D4tP16V5UoPIqD1ZKTqLWBi7o/f8wO4WMLLTZxb/TQfvTmNQwi5uuDWv/W66M/Cjh5fLhiFmLZ+cSIv/WgMrZuwP0l3vi8tU1TR7OrExYp9AiVWKEITdkzuPTCBHF5kZmZL+0V/HosDss3anlZjFmoxo58GWCBUiS2ttz/QqKfcLNiMgDH59P+XBQc5VBuI7QglzhdkF3bm76QfZ9lpSsKBhk2apNbj+NDbv47EKlDZjh0oJ//D3SIdkbvDpsjIRVr6CTBWXpXsqOU493jajE/N6Zuxl9BeMyipmAm03J/AuY7eWRtZ0AjU6HmrPaMi3dC4BGI239lrOCA/yktLeNdlWRhktkjSn9AhPm1+5TBvQdxFA4tXiiI58D+Xitw6piBel1MMDRFqQOBLP3YcV4FUVs3WDccxgTi+uBptdGolg4TVobFoGCMU7Drni+LL/kVSZOJuidm0G4Dugl260HDB117xdhzGH3AQ/BXQMEzH1ZKsup9xts1DPfswkKsiaKaIDebBSduYxi6J39dSCSGbgPDKk5U=
-    - secure: a23U0xF/qYtQy96cPi4P29wKEXSTmpA+jsQW+HiCeqItop/H21PQk5eJhUzKzeq5i0PzJnU3bMrcoBqbuOtL9V6y7lKi7ySaUWdYPhKX8CcLhz6X3zZJ9Fe6bA6WFM0075FVKgptL7++B5PN3nTsf+sSqnbugMvc8QRBMsUvHi5xFXblEP/Uo3Rwt8Ibi9c0K1QRKdS3IDhW3rJMD68EXV6LhcYRHYuQLQGqgEg9NjM8bryasxoXMrLWkwkK/yVeBbfXvTEb3QsTRgl6CEYFPyT+wN+IJjta1yN2hbXJ4IOB1WLIdIxCMV0OD8T0YAEyUP7eL5tNtBafYJgKvpTLYsi4FUQLIJ2nnhpxoE8lHboTekhOUZkCf+hYhY89AwDsXhrNfvB0EtKmq84MydgYC/OhKQbPqofrAsF7Wxfv7hu6PMJw5zXmearw4YQBvH6TzGR3j2ML94hEn2DZoSv0q9kDnu0Oy19wS/AuawclJA5M5hXhJIBEOuEt1+yePOsChcDJQTg89hWdzkHOO9Cxc98LBAAUV+fccgWdfutSBQC3EyJ12+FGm/0oLpS9/8C97rtYOyd1uFgjDzDP114SrJzvtr6zri41xf3IOJk2vejYyOxhIYV3pArqs95KcCXXEa0LzfJRsWTlIqfbzTAAsBNrPs/8tYYdZeSqsjdL4P4=
+  - SUBDAGS=1
+  - BIOCONDA_UTILS_TAG=master
+  - BIOCONDA_UTILS_BUILD_ARGS="--loglevel=info"
+  - BIOCONDA_UTILS_LINT_ARGS=
+  - MINICONDA_VER="4.3.21"
+  - ANACONDA_USER='nyuad-cgsb'
+  - GITHUB_USER='nyuad-cgsb'
+  - MY_TRAVIS_REPO_SLUG='biosails/bioconda-recipes'
+  - secure: Kzf6ESymKkb3dj1ZVHy3A9QpA6fSjwM3YVqJy9589lKs1LISxaUU+/lGWIibefMhKWkFg+H6g9Jpfm26aFeZ6qid5FR5Bz3v88+RpDW1fGGvKSbiulsymskoKSx4r7Eh8fMGeMTWYtpE1UT20zq4+oefGj1+xghlNQjfM9fbo9e5OUR3nA6fWI7gRXPOaz5kNJbinL674Ob/6iQUboe2EChcarYaMFtScpoMwlmXCRE9SXKFVpZacKPADZzwLkGCLIIvS4XggcoPekDpnwjst2GFa8+rY4IPtznzwfWovNIA+NkKJKVhyejppq8ojSUrbmaF8Evf0r17hOpLgxT5VuzSUZ39q4R0Ad6JlWMWMZDc+cqGulxcK0f+8bwqjozko1NL9NWnZ4TpVxsGYpyl3Q0DutQ818W2t6Ijm7iF42EE5Ry87ukuQe099OIethvkhKHhgUhL/ws+4mQc03JNvVB+gxLrgNLhtTyLdU9LuxXl6mMaY5zvK0AXZ+WR6QC/mL9tEGuB0YCjnRj4C/rHiX8b/C8ZWMIJIGCPOWmOtDFCXzBoy/UdAMsHFRWKWmMFDgBbMy1RrVmhIcvLQgHJC9zd9TAnrDm96VeDwlsVyjReADwa1/UDtpuAXPyjE+d3DXQCqL6/JnC+O79hFsfQ1UXC1RIAJRjXRN7DZmdyZbE=
+  - secure: GLhQJG6dDtwe/3Kgxspl9hxiaECJvjLE8CS4Ooi3XWFhB7/pPhfWDvNfwyqpG/O6frrYuelLLwgyrlBpCfJolWSmHMNpN6OOES50AIm0aT8jgUZ0a0RDlpYfQgHzFEdICZKc5a9mXSMIMQADvjQGk4giKMAyF0msVjIDPoCXgXLDcAHjp1C45rLQrmFd84yRNZHO3EaN8GtNW7iqf9neuCulLVaZqL4ByXsg5jEGfNSd0uF5fmxWwQYKSh0/8XczOcontJ18HKnw51H5qWJCmWu4Qz4lXhmdC1Wbb8uqivo5B/hjculPpFXLKVad+Gug2lf7WqNyfgsqJO4KL3R+MThsXKKMD7EoNEZu4wjw0wprvvjk4PwmgvuB3IQdI6XdKwQSkL8BTmKtvWlHMDWLGcg1iWneel0kRiuq2+yT4hZdudSbd9eJnrtYovrTqVxiVY0vXmX6hyRkrpjBDCyC+KxBBx262QrBBsFn/6Ftm8V5UBGW3IOGaP8wzxcQPYj8+AHQ+BsyDucCFtEXyuu9nNUPtbMV96Ny/eL5KmwTGxeDsdGnonoPGfwR6JvLgH1KWEUhJ4F0y/AMUxYJR8enFG6Wkij9URH0sr8oF5LtnhuSw0u+aX4oP0pAw5gbWI7TWEvI9+XMh1XipgwqAF8qrSiUG3kwaUOGGFYCDfp7ZpA=
   matrix:
-    - SUBDAG=0
-
+  - SUBDAG=0
 matrix:
   fast_finish: true
