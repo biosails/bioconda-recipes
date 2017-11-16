@@ -17,9 +17,6 @@ jobs:
     if: "(type = push) AND ((branch IN (master, bulk)) OR (fork = true))"
     os: linux
     script: scripts/travis-run.sh
-  - os: osx
-    if: "(type = push) AND ((branch IN (master, bulk)) OR (fork = true))"
-    script: scripts/travis-run.sh
   - stage: Linux
     if: type = pull_request
     os: linux
