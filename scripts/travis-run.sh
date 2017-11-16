@@ -113,6 +113,8 @@ echo "BUILD ARGS: "
 echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
 
 set -x
+echo "DOCKER IMAGES"
 docker images
+echo "Building with bioconda!"
 bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG
-set +x;
+set +x
