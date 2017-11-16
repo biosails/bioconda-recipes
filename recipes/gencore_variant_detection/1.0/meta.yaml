@@ -45,5 +45,5 @@ test:
 
 about:
   home: 'https://cgsb.abudhabi.nyu.edu/'
-  license: BSD 
+  license: BSD
   summary: 'Gencore Variant Detection'
