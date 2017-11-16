@@ -9,7 +9,6 @@ set +u
 [[ -z $DISABLE_BIOCONDA_UTILS_BUILD_GIT_RANGE_CHECK  ]] && DISABLE_BIOCONDA_UTILS_BUILD_GIT_RANGE_CHECK="false"
 [[ -z $SKIP_LINTING ]] && SKIP_LINTING=false
 [[ -z $QUAY_TARGET ]] && QUAY_TARGET="biocontainers"
-[[ -z $BUILD_CONFIG ]] && QUAY_TARGET="config.yml"
 set -u
 
 if [[ $TRAVIS_BRANCH != "master" && $TRAVIS_BRANCH != "bulk" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "$MY_TRAVIS_REPO_SLUG" ]]
@@ -102,7 +101,7 @@ else
     fi
     if [[ $SKIP_LINTING == "false"  ]]
     then
-        set -x; bioconda-utils lint recipes $BUILD_CONFIG $RANGE_ARG $BIOCONDA_UTILS_LINT_ARGS $LINT_COMMENT_ARG; set +x
+        set -x; bioconda-utils lint recipes config.yml $RANGE_ARG $BIOCONDA_UTILS_LINT_ARGS $LINT_COMMENT_ARG; set +x
     fi
 fi
 
@@ -116,6 +115,6 @@ then
 fi
 
 echo "BUILD ARGS: "
-echo "bioconda-utils build recipes $BUILD_CONFIG $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
+echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
 
-set -x; bioconda-utils build recipes $BUILD_CONFIG $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG; set +x;
+set -x; bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG; set +x;
