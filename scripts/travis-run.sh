@@ -25,13 +25,11 @@ fi
 # determine recipes to build. If building locally, build anything that changed
 # since master. If on travis, only build the commit range included in the push
 # or the pull request.
-echo "CONDITION 2"
 if [[ $TRAVIS == "true" ]]
 then
     RANGE="$TRAVIS_BRANCH HEAD"
     if [ $TRAVIS_PULL_REQUEST == "false" ]
     then
-        echo "TRAVIS PULL REQUEST: FALSE"
         if [ -z "$TRAVIS_COMMIT_RANGE" ]
         then
             RANGE="HEAD~1 HEAD"
@@ -44,7 +42,6 @@ then
     then
         RANGE_ARG=""
         SKIP_LINTING=true
-        echo "considering all recipes because build is triggered via cron"
     else
         if [[ $TRAVIS_BRANCH == "bulk" ]]
         then
@@ -57,10 +54,8 @@ then
                 # push on bulk: consider all recipes and do not lint (the bulk update)!
                 RANGE_ARG=""
                 SKIP_LINTING=true
-                echo "running bulk update"
             fi
         else
-          echo "TRAVIS BRANCH IS NOT BULK"
             # consider only recipes that (a) changed since the last build
             # on master, or (b) changed in this pull request compared to the target
             # branch.
