@@ -24,10 +24,6 @@ jobs:
     if: type = pull_request
     os: linux
     script: scripts/travis-run.sh
-  - stage: macOS
-    if: type = pull_request
-    os: osx
-    script: scripts/travis-run.sh
 env:
   global:
   - SUBDAGS=1
