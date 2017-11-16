@@ -40,8 +40,8 @@ requirements:
 
 test:
   commands:
-    - tophat --help
-    - bamtools --help
+    - tophat --help 2>&1 | grep 'tophat'
+    - bamtools --help 2>&1 | grep 'bamtools'
 
 about:
   home: https://github.com/biosails/HPC-Runner-Command
