@@ -115,6 +115,7 @@ echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_
 set -x
 echo "DOCKER IMAGES"
 docker images
+pip install git+https://github.com/jerowe/bioconda-utils.git@develop
 echo "Building with bioconda!"
 bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG || echo "Build Failed!"
 docker images
