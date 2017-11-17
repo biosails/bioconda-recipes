@@ -27,6 +27,5 @@ pip install pyyaml
 sudo mkdir /anaconda
 sudo chown -R $USER /anaconda
 $SCRIPT_DIR/../simulate-travis.py --bootstrap /anaconda --overwrite
-# pip install git+https://github.com/jerowe/bioconda-utils@develop
 /anaconda/bin/conda index /anaconda/conda-bld/linux-64 /anaconda/conda-bld/osx-64
 /anaconda/bin/conda config --add channels file://anaconda/conda-bld
