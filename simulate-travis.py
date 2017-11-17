@@ -242,7 +242,7 @@ def _install_requirements():
     sp.check_call(
         [
             bin_for('pip'), 'install',
-            'git+https://github.com/jerowe/bioconda-utils.git@{0}'.format('develop')
+            'git+https://github.com/jerowe/bioconda-utils.git@{}'.format('develop')
         ])
             # 'git+https://github.com/bioconda/bioconda-utils.git@{0}'.format(env['BIOCONDA_UTILS_TAG'])
 
