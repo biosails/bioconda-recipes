@@ -182,10 +182,12 @@ def _update_env():
 
 # Load the env vars configured in .travis.yaml into os.environ
 env = {}
+print "Updating ENV"
 for var in travis_config['env']['global']:
     if isinstance(var, dict) and list(var.keys()) == ['secure']:
         continue
     name, value = var.split('=', 1)
+    print('Name: {} Value: {}'.format(name, value))
     env[name] = value
 
 # Linting and building both pay attention to this env var.
