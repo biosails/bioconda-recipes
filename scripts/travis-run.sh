@@ -113,12 +113,8 @@ echo "BUILD ARGS: "
 echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
 
 set -x
-echo "DOCKER IMAGES"
 docker images
 pip install --upgrade  git+https://github.com/jerowe/bioconda-utils.git@develop
-echo "Building with bioconda!"
-echo "INVOLUCRO_AUTH: $INVOLUCRO_AUTH "
-echo $INVOLUCRO_AUTH
 bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG || echo "Build Failed!"
 docker images
 set +x
