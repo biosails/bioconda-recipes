@@ -83,7 +83,6 @@ if [[ ( $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "bulk" ) && "$TRAVIS_PUL
 then
     if [[ $TRAVIS_OS_NAME == "linux" ]]
     then
-        docker login -u jerowe -p $QUAY_PASSWORD quay.io
         UPLOAD_ARG="--anaconda-upload --mulled-upload-target $CONTAINER_NAMESPACE"
     else
         UPLOAD_ARG="--anaconda-upload"
