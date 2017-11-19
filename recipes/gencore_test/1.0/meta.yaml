@@ -16,7 +16,7 @@ requirements:
 
 test:
   commands:
-    - echo 'hello' 
+    - perl --help 2>&1 | grep 'perl'
 
 
 about:

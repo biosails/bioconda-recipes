@@ -182,7 +182,6 @@ def _update_env():
 
 # Load the env vars configured in .travis.yaml into os.environ
 env = {}
-print "Updating ENV"
 for var in travis_config['env']['global']:
     if isinstance(var, dict) and list(var.keys()) == ['secure']:
         continue
