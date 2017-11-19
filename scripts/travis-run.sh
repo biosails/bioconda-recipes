@@ -109,9 +109,6 @@ then
     RANGE_ARG=""
 fi
 
-echo "BUILD ARGS: "
-echo "bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG"
-
 set -x
 pip install --upgrade  git+https://github.com/jerowe/bioconda-utils.git@develop
 bioconda-utils build recipes config.yml $UPLOAD_ARG $DOCKER_ARG $BIOCONDA_UTILS_BUILD_ARGS $RANGE_ARG || echo "Build Failed!"
