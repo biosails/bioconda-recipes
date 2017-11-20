@@ -3,6 +3,11 @@ set -e
 set -x
 
 
+echo "#################### Begin Checking the cache!  ##########################"
+ls -lah /home/travis/.conda/pkgs
+echo "#################### End Checking the cache!    ##########################"
+
+
 if [[ $TRAVIS_BRANCH != "master" && $TRAVIS_BRANCH != "bulk" && $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_REPO_SLUG == "$MY_TRAVIS_REPO_SLUG" ]]
 then
     echo ""
