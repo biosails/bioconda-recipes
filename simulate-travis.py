@@ -186,6 +186,7 @@ for var in travis_config['env']['global']:
     if isinstance(var, dict) and list(var.keys()) == ['secure']:
         continue
     name, value = var.split('=', 1)
+    print('Name: {} Value: {}'.format(name, value))
     env[name] = value
 
 # Linting and building both pay attention to this env var.
@@ -242,8 +243,9 @@ def _install_requirements():
     sp.check_call(
         [
             bin_for('pip'), 'install',
-            'git+https://github.com/bioconda/bioconda-utils.git@{0}'.format(env['BIOCONDA_UTILS_TAG'])
+            'git+https://github.com/jerowe/bioconda-utils.git@{}'.format('develop')
         ])
+            # 'git+https://github.com/bioconda/bioconda-utils.git@{0}'.format(env['BIOCONDA_UTILS_TAG'])
 
 
 def _set_channel_order():
