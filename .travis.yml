@@ -11,6 +11,9 @@ before_install:
     rm -rf /home/travis/.gimme/ /home/travis/.rvm /home/travis/.nvm
   fi
 install: scripts/travis-setup.sh
+cache:
+  directories:
+  - /anaconda/pkgs 
 jobs:
   include:
   - stage: Linux+macOS
