@@ -13,7 +13,7 @@ before_install:
 install: scripts/travis-setup.sh
 cache:
   directories:
-  - /anaconda/pkgs
+  - /home/travis/.conda/pkgs
 jobs:
   include:
   - stage: Linux+macOS
