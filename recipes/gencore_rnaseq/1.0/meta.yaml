@@ -1,6 +1,7 @@
 {% set name = "gencore_rnaseq" %}
 {% set version = "1.0" %}
 
+
 package:
   name: {{ name }}
   version: {{ version }}
@@ -51,4 +52,4 @@ test:
 about:
   home: 'https://cgsb.abudhabi.nyu.edu/'
   license: BSD
-  summary: 'Gencore Variant Detection'
+  summary: 'Gencore RnaSeq Module'
