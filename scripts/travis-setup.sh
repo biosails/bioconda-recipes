@@ -29,7 +29,7 @@ sudo chown -R $USER /anaconda
 $SCRIPT_DIR/../simulate-travis.py --bootstrap /anaconda --overwrite
 /anaconda/bin/conda index /anaconda/conda-bld/linux-64 /anaconda/conda-bld/osx-64
 /anaconda/bin/conda config --add channels file://anaconda/conda-bld
-/anaconda/bin/conda install -y r-base r-essentials openjdk perl
+/anaconda/bin/conda install -y r-base r-essentials openjdk perl bioconductor-biobase salmon kallisto
 
 /anaconda/bin/conda info
 ls -lah /home/travis/.conda/pkgs
