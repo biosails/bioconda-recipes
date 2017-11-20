@@ -32,4 +32,4 @@ $SCRIPT_DIR/../simulate-travis.py --bootstrap /anaconda --overwrite
 /anaconda/bin/conda install -y r-base r-essentials openjdk
 
 ls -lah /anaconda
-/anaconda/bin/conda --info
+/anaconda/bin/conda info
