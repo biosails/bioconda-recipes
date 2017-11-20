@@ -31,5 +31,5 @@ $SCRIPT_DIR/../simulate-travis.py --bootstrap /anaconda --overwrite
 /anaconda/bin/conda config --add channels file://anaconda/conda-bld
 /anaconda/bin/conda install -y r-base r-essentials openjdk
 
-ls -lah /anaconda
 /anaconda/bin/conda info
+ls -lah /home/travis/.conda/pkgs
